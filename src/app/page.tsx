@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { calculateItalianTaxes, EmploymentType, formatCurrencyEUR } from "@/lib/tax/italy";
+import { Checkbox } from "@/components/ui/Checkbox";
 
 type RegionPreset = {
   name: string;
@@ -142,15 +143,9 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-4">
-                <label className="flex items-center gap-2 text-sm text-gray-700">
-                  <input type="checkbox" checked={applyEmployeeCredit} onChange={(e) => setApplyEmployeeCredit(e.target.checked)} />
-                  Apply employee credit
-                </label>
-                <label className="flex items-center gap-2 text-sm text-gray-700">
-                  <input type="checkbox" checked={trattamentoIntegrativo} onChange={(e) => setTrattamentoIntegrativo(e.target.checked)} />
-                  Trattamento integrativo (approx)
-                </label>
+              <div className="flex items-center gap-6">
+                <Checkbox label="Apply employee credit" checked={applyEmployeeCredit} onChange={setApplyEmployeeCredit} />
+                <Checkbox label="Trattamento integrativo (approx)" checked={trattamentoIntegrativo} onChange={setTrattamentoIntegrativo} />
               </div>
             </div>
           </section>
