@@ -15,6 +15,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Italian Tax Calculator",
   description: "Estimate Italian taxes (IRPEF, addizionali, INPS) with an Untitled UI–inspired design.",
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({
