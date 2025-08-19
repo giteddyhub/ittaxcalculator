@@ -88,7 +88,9 @@ export default function Home() {
                       type="button"
                       onClick={() => setEmploymentType(opt.key)}
                       className={`u-button ${
-                        employmentType === opt.key ? "u-button--primary" : "u-button--ghost"
+                        employmentType === opt.key
+                          ? "border-[#6941c6] bg-[#6941c6] text-white hover:bg-[#5a35b0]"
+                          : "u-button--ghost"
                       }`}
                     >
                       {opt.label}
