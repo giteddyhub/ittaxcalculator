@@ -55,7 +55,7 @@ export default function Home() {
       <div className="mx-auto max-w-5xl px-6 py-10">
         <header className="mb-8">
           <h1 className="text-3xl font-semibold tracking-tight">Italian Tax Calculator</h1>
-          <p className="mt-2 text-sm text-gray-600">Estimate IRPEF, regional/municipal taxes, and INPS. Styled with an Untitled UI–inspired system.</p>
+          <p className="mt-2 text-sm text-gray-600">Estimate IRPEF, regional/municipal taxes, and INPS.</p>
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
