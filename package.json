@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "export": "next export",
+    "pages:build": "npm run build && rm -rf docs && cp -R out docs",
     "start": "next start",
     "lint": "next lint"
   },
