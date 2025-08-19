@@ -51,26 +51,26 @@ export default function Home() {
       <div className="mx-auto max-w-5xl px-6 py-10">
         <header className="mb-8">
           <h1 className="text-3xl font-semibold tracking-tight">Italian Tax Calculator</h1>
-          <p className="mt-2 text-sm text-gray-600">Estimate IRPEF, regional/municipal taxes, and INPS. Styled with an Untitled UI-inspired system.</p>
+          <p className="mt-2 text-sm text-gray-600">Estimate IRPEF, regional/municipal taxes, and INPS. Styled with an Untitled UI–inspired system.</p>
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <section className="rounded-2xl border border-gray-200 p-6 shadow-sm">
+          <section className="u-card p-6">
             <h2 className="text-base font-medium">Inputs</h2>
             <div className="mt-4 grid grid-cols-1 gap-4">
               <div>
-                <label className="block text-sm text-gray-700">Gross annual income (EUR)</label>
+                <label className="u-label">Gross annual income (EUR)</label>
                 <input
                   type="number"
                   inputMode="decimal"
                   value={grossIncome}
                   onChange={(e) => setGrossIncome(Number(e.target.value || 0))}
-                  className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-900/5"
+                  className="u-input"
                 />
               </div>
 
               <div>
-                <label className="block text-sm text-gray-700">Employment type</label>
+                <label className="u-label">Employment type</label>
                 <div className="mt-2 grid grid-cols-1 sm:grid-cols-3 gap-2">
                   {(
                     [
@@ -83,10 +83,8 @@ export default function Home() {
                       key={opt.key}
                       type="button"
                       onClick={() => setEmploymentType(opt.key)}
-                      className={`rounded-lg border px-3 py-2 text-sm transition ${
-                        employmentType === opt.key
-                          ? "border-gray-900 bg-gray-900 text-white"
-                          : "border-gray-300 hover:bg-gray-50"
+                      className={`u-button ${
+                        employmentType === opt.key ? "u-button--primary" : "u-button--ghost"
                       }`}
                     >
                       {opt.label}
@@ -96,9 +94,9 @@ export default function Home() {
               </div>
 
               <div>
-                <label className="block text-sm text-gray-700">Region / Municipality preset</label>
+                <label className="u-label">Region / Municipality preset</label>
                 <select
-                  className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-900/5"
+                  className="u-input"
                   value={regionIdx}
                   onChange={(e) => setRegionIdx(Number(e.target.value))}
                 >
@@ -112,34 +110,34 @@ export default function Home() {
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div>
-                  <label className="block text-sm text-gray-700">INPS rate override (%)</label>
+                  <label className="u-label">INPS rate override (%)</label>
                   <input
                     type="number"
                     inputMode="decimal"
                     placeholder="auto"
                     value={inpsOverridePct}
                     onChange={(e) => setInpsOverridePct(e.target.value)}
-                    className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-900/5"
+                    className="u-input"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm text-gray-700">Extra pension deductible (EUR)</label>
+                  <label className="u-label">Extra pension deductible (EUR)</label>
                   <input
                     type="number"
                     inputMode="decimal"
                     value={extraPension}
                     onChange={(e) => setExtraPension(Number(e.target.value || 0))}
-                    className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-900/5"
+                    className="u-input"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm text-gray-700">Other tax credits (EUR)</label>
+                  <label className="u-label">Other tax credits (EUR)</label>
                   <input
                     type="number"
                     inputMode="decimal"
                     value={otherCredits}
                     onChange={(e) => setOtherCredits(Number(e.target.value || 0))}
-                    className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-900/5"
+                    className="u-input"
                   />
                 </div>
               </div>
@@ -157,7 +155,7 @@ export default function Home() {
             </div>
           </section>
 
-          <section className="rounded-2xl border border-gray-200 p-6 shadow-sm">
+          <section className="u-card p-6">
             <h2 className="text-base font-medium">Estimate</h2>
             <div className="mt-4 space-y-3 text-sm">
               <Row label="Gross income" value={formatCurrencyEUR(breakdown.inputs.grossIncome)} />
