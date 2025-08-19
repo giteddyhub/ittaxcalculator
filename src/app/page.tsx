@@ -208,7 +208,7 @@ export default function Home() {
         </div>
 
         <p className="mt-8 text-xs text-gray-500">
-          This is an estimate for educational purposes. For accuracy, consult official guidance from the Italian tax authorities and professional advice. Sources: EY summary of 2025 brackets; ranges for addizionali regionali/comunali and INPS rates.
+          This is an estimate for educational purposes. To accurately determine your tax obligations please complete your tax filing at <a className="underline hover:no-underline" href="https://www.italiantaxes.com/" target="_blank" rel="noopener noreferrer">ItalianTaxes.com</a> or <a className="underline hover:no-underline" href="https://www.italiantaxes.com/standard-consultation-booking" target="_blank" rel="noopener noreferrer">book a consultation</a>. Sources: EY summary of 2025 brackets; ranges for addizionali regionali/comunali and INPS rates.
         </p>
       </div>
     </div>
