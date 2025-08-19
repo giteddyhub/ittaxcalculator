@@ -16,7 +16,7 @@ export function Switch({ label, checked, onChange, id }: SwitchProps) {
 
 	return (
 		<label className="inline-flex items-center gap-3 cursor-pointer select-none">
-			<span className="relative inline-flex h-5 w-9 items-center rounded-full transition-colors border border-gray-300 bg-gray-200 p-[2px] peer-checked:bg-blue-600/15 peer-checked:border-blue-600">
+			<span className="relative inline-flex h-5 w-9 shrink-0 items-center rounded-full transition-colors border border-gray-300 bg-gray-200 p-[2px] peer-checked:bg-blue-600/15 peer-checked:border-blue-600">
 				<input
 					id={id}
 					type="checkbox"
