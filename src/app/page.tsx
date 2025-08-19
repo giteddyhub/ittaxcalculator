@@ -21,18 +21,21 @@ const REGION_PRESETS: RegionPreset[] = [
 ];
 
 export default function Home() {
-  const [grossIncome, setGrossIncome] = useState<number>(40000);
+  const [grossIncomeStr, setGrossIncomeStr] = useState<string>("40000");
   const [employmentType, setEmploymentType] = useState<EmploymentType>("employee");
   const [regionIdx, setRegionIdx] = useState<number>(0);
   const [applyEmployeeCredit, setApplyEmployeeCredit] = useState<boolean>(true);
   const [trattamentoIntegrativo, setTrattamentoIntegrativo] = useState<boolean>(false);
-  const [extraPension, setExtraPension] = useState<number>(0);
-  const [otherCredits, setOtherCredits] = useState<number>(0);
+  const [extraPensionStr, setExtraPensionStr] = useState<string>("");
+  const [otherCreditsStr, setOtherCreditsStr] = useState<string>("");
   const [inpsOverridePct, setInpsOverridePct] = useState<string>("");
 
   const preset = REGION_PRESETS[regionIdx] ?? REGION_PRESETS[REGION_PRESETS.length - 1];
 
   const breakdown = useMemo(() => {
+    const grossIncome = parseFloat((grossIncomeStr || "0").replace(",", ".")) || 0;
+    const extraPension = parseFloat((extraPensionStr || "0").replace(",", ".")) || 0;
+    const otherCredits = parseFloat((otherCreditsStr || "0").replace(",", ".")) || 0;
     const inpsRatePct = inpsOverridePct === "" ? undefined : Number(inpsOverridePct);
     return calculateItalianTaxes({
       grossIncome,
@@ -45,7 +48,7 @@ export default function Home() {
       applyEmployeeCredit,
       trattamentoIntegrativoEligible: trattamentoIntegrativo,
     });
-  }, [grossIncome, employmentType, inpsOverridePct, extraPension, otherCredits, preset, applyEmployeeCredit, trattamentoIntegrativo]);
+  }, [grossIncomeStr, employmentType, inpsOverridePct, extraPensionStr, otherCreditsStr, preset, applyEmployeeCredit, trattamentoIntegrativo]);
 
   return (
     <div className="min-h-screen bg-white text-gray-900">
@@ -62,10 +65,10 @@ export default function Home() {
               <div>
                 <label className="u-label">Gross annual income (EUR)</label>
                 <input
-                  type="number"
+                  type="text"
                   inputMode="decimal"
-                  value={grossIncome}
-                  onChange={(e) => setGrossIncome(Number(e.target.value || 0))}
+                  value={grossIncomeStr}
+                  onChange={(e) => setGrossIncomeStr(e.target.value)}
                   className="u-input"
                 />
               </div>
@@ -113,7 +116,7 @@ export default function Home() {
                 <div>
                   <label className="u-label">INPS rate override (%)</label>
                   <input
-                    type="number"
+                    type="text"
                     inputMode="decimal"
                     placeholder="auto"
                     value={inpsOverridePct}
@@ -124,20 +127,22 @@ export default function Home() {
                 <div>
                   <label className="u-label">Extra pension deductible (EUR)</label>
                   <input
-                    type="number"
+                    type="text"
                     inputMode="decimal"
-                    value={extraPension}
-                    onChange={(e) => setExtraPension(Number(e.target.value || 0))}
+                    placeholder="0"
+                    value={extraPensionStr}
+                    onChange={(e) => setExtraPensionStr(e.target.value)}
                     className="u-input"
                   />
                 </div>
                 <div>
                   <label className="u-label">Other tax credits (EUR)</label>
                   <input
-                    type="number"
+                    type="text"
                     inputMode="decimal"
-                    value={otherCredits}
-                    onChange={(e) => setOtherCredits(Number(e.target.value || 0))}
+                    placeholder="0"
+                    value={otherCreditsStr}
+                    onChange={(e) => setOtherCreditsStr(e.target.value)}
                     className="u-input"
                   />
                 </div>
