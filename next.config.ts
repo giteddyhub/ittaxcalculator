@@ -1,12 +1,12 @@
 import type { NextConfig } from "next";
 
-const isProd = process.env.NODE_ENV === "production";
+const isGhPages = process.env.GH_PAGES === "true";
 const repoName = "ittaxcalculator";
 
 const nextConfig: NextConfig = {
   output: "export",
   images: { unoptimized: true },
-  ...(isProd
+  ...(isGhPages
     ? {
         basePath: `/${repoName}`,
         assetPrefix: `/${repoName}/`,
