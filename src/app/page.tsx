@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { calculateItalianTaxes, EmploymentType, formatCurrencyEUR } from "@/lib/tax/italy";
+import { calculateForfettario, QUICK_COEFFICIENTS, ForfettarioInpsPath, formatCurrencyEUR as formatEURForf } from "@/lib/tax/forfettario";
 import { Switch } from "@/components/ui/Switch";
 import { BackLink } from "@/components/ui/BackLink";
 
@@ -21,7 +22,10 @@ const REGION_PRESETS: RegionPreset[] = [
   { name: "Default / Other", regionalRatePct: 1.5, municipalRatePct: 0.6 },
 ];
 
+type Regime = "ordinario" | "forfettario";
+
 export default function Home() {
+  const [regime, setRegime] = useState<Regime>("ordinario");
   const [grossIncomeStr, setGrossIncomeStr] = useState<string>("40000");
   const [employmentType, setEmploymentType] = useState<EmploymentType>("employee");
   const [regionIdx, setRegionIdx] = useState<number>(0);
@@ -30,6 +34,15 @@ export default function Home() {
   const [extraPensionStr, setExtraPensionStr] = useState<string>("");
   const [otherCreditsStr, setOtherCreditsStr] = useState<string>("");
   const [inpsOverridePct, setInpsOverridePct] = useState<string>("");
+
+  // Forfettario state
+  const [revenuesStr, setRevenuesStr] = useState<string>("");
+  const [coeffPctStr, setCoeffPctStr] = useState<string>("78");
+  const [forfPath, setForfPath] = useState<ForfettarioInpsPath>("gestione_separata");
+  const [gsRateStr, setGsRateStr] = useState<string>("");
+  const [ivsAnnualStr, setIvsAnnualStr] = useState<string>("");
+  const [ivs35, setIvs35] = useState<boolean>(false);
+  const [fivePct, setFivePct] = useState<boolean>(false);
 
   const preset = REGION_PRESETS[regionIdx] ?? REGION_PRESETS[REGION_PRESETS.length - 1];
 
@@ -51,6 +64,22 @@ export default function Home() {
     });
   }, [grossIncomeStr, employmentType, inpsOverridePct, extraPensionStr, otherCreditsStr, preset, applyEmployeeCredit, trattamentoIntegrativo]);
 
+  const forfBreakdown = useMemo(() => {
+    const revenues = parseFloat((revenuesStr || "0").replace(",", ".")) || 0;
+    const coeffPct = parseFloat((coeffPctStr || "0").replace(",", ".")) || 0;
+    const gsRatePct = gsRateStr === "" ? undefined : Number(gsRateStr);
+    const ivsAnnual = ivsAnnualStr === "" ? undefined : Number(ivsAnnualStr);
+    return calculateForfettario({
+      revenues,
+      coefficientPct: coeffPct,
+      inpsPath: forfPath,
+      gsRatePct,
+      ivsAnnualContributions: ivsAnnual,
+      applyIVS35Reduction: ivs35,
+      startupFivePct: fivePct,
+    });
+  }, [revenuesStr, coeffPctStr, forfPath, gsRateStr, ivsAnnualStr, ivs35, fivePct]);
+
   return (
     <div className="min-h-screen bg-white text-gray-900">
       <div className="mx-auto max-w-5xl px-6 py-10">
@@ -70,6 +99,26 @@ export default function Home() {
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <section className="u-card p-6">
+            <h2 className="text-base font-medium">Regime</h2>
+            <div className="mt-3 grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                className={`u-button ${regime === "ordinario" ? "border-[#6941c6] bg-[#6941c6] text-white hover:bg-[#5a35b0]" : "u-button--ghost"}`}
+                onClick={() => setRegime("ordinario")}
+              >
+                Ordinario
+              </button>
+              <button
+                type="button"
+                className={`u-button ${regime === "forfettario" ? "border-[#6941c6] bg-[#6941c6] text-white hover:bg-[#5a35b0]" : "u-button--ghost"}`}
+                onClick={() => setRegime("forfettario")}
+              >
+                Forfettario
+              </button>
+            </div>
+          </section>
+          {regime === "ordinario" && (
           <section className="u-card p-6">
             <h2 className="text-base font-medium">Inputs</h2>
             <div className="mt-4 grid grid-cols-1 gap-4">
@@ -167,7 +216,65 @@ export default function Home() {
               </div>
             </div>
           </section>
+          )}
 
+          {regime === "forfettario" && (
+          <section className="u-card p-6">
+            <h2 className="text-base font-medium">Inputs (Forfettario)</h2>
+            <div className="mt-4 grid grid-cols-1 gap-4">
+              <div>
+                <label className="u-label">Annual revenues (EUR)</label>
+                <input type="text" inputMode="decimal" value={revenuesStr} onChange={(e) => setRevenuesStr(e.target.value)} className="u-input" />
+              </div>
+              <div>
+                <label className="u-label">Coefficient (%)</label>
+                <div className="mt-2 grid grid-cols-3 gap-2">
+                  {QUICK_COEFFICIENTS.map(c => (
+                    <button key={c.value} type="button" onClick={() => setCoeffPctStr(String(c.value))} className={`u-button ${Number(coeffPctStr)===c.value?"border-[#6941c6] bg-[#6941c6] text-white hover:bg-[#5a35b0]":"u-button--ghost"}`}>{c.label}</button>
+                  ))}
+                </div>
+                <input type="text" inputMode="decimal" value={coeffPctStr} onChange={(e) => setCoeffPctStr(e.target.value)} className="u-input" />
+              </div>
+
+              <div>
+                <label className="u-label">INPS path</label>
+                <div className="mt-2 grid grid-cols-2 gap-2">
+                  <button type="button" className={`u-button ${forfPath==="gestione_separata"?"border-[#6941c6] bg-[#6941c6] text-white hover:bg-[#5a35b0]":"u-button--ghost"}`} onClick={()=>setForfPath("gestione_separata")}>Gestione Separata</button>
+                  <button type="button" className={`u-button ${forfPath==="ivs_artigiani_commercianti"?"border-[#6941c6] bg-[#6941c6] text-white hover:bg-[#5a35b0]":"u-button--ghost"}`} onClick={()=>setForfPath("ivs_artigiani_commercianti")}>IVS Artigiani/Commercianti</button>
+                </div>
+              </div>
+
+              {forfPath === "gestione_separata" && (
+                <div>
+                  <label className="u-label">GS rate override (%)</label>
+                  <input type="text" inputMode="decimal" placeholder="auto" value={gsRateStr} onChange={(e)=>setGsRateStr(e.target.value)} className="u-input" />
+                </div>
+              )}
+
+              {forfPath === "ivs_artigiani_commercianti" && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="u-label">IVS annual contributions (EUR)</label>
+                    <input type="text" inputMode="decimal" placeholder="minimi + eccedenza" value={ivsAnnualStr} onChange={(e)=>setIvsAnnualStr(e.target.value)} className="u-input" />
+                  </div>
+                  <label className="flex items-center gap-2 text-sm text-gray-700 mt-6">
+                    <input type="checkbox" checked={ivs35} onChange={(e)=>setIvs35(e.target.checked)} />
+                    Apply 35% IVS reduction (if eligible)
+                  </label>
+                </div>
+              )}
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <label className="flex items-center gap-2 text-sm text-gray-700">
+                  <input type="checkbox" checked={fivePct} onChange={(e)=>setFivePct(e.target.checked)} />
+                  Startup 5% rate (first 5 years, if eligible)
+                </label>
+              </div>
+            </div>
+          </section>
+          )}
+
+          {regime === "ordinario" && (
           <section className="u-card p-6">
             <h2 className="text-base font-medium">Estimate</h2>
             <div className="mt-4 space-y-3 text-sm">
@@ -216,6 +323,23 @@ export default function Home() {
               </div>
             </div>
           </section>
+          )}
+
+          {regime === "forfettario" && (
+          <section className="u-card p-6">
+            <h2 className="text-base font-medium">Estimate (Forfettario)</h2>
+            <div className="mt-4 space-y-3 text-sm">
+              <Row label="Revenues" value={formatEURForf(forfBreakdown.inputs.revenues)} />
+              <Row label={`Forfait income (${forfBreakdown.inputs.coefficientPct}%)`} value={formatEURForf(forfBreakdown.forfaitIncome)} />
+              <Row label="INPS contributions" value={formatEURForf(forfBreakdown.inpsContributions)} subtle />
+              <Row label="Taxable base" value={formatEURForf(forfBreakdown.taxableBase)} />
+              <Row label={`Imposta sostitutiva (${forfBreakdown.impostaSostitutivaRatePct}%)`} value={formatEURForf(forfBreakdown.impostaSostitutiva)} />
+              <div className="mt-5 border-t border-gray-200 pt-4">
+                <Row label="Net income" value={formatEURForf(forfBreakdown.netIncome)} />
+              </div>
+            </div>
+          </section>
+          )}
         </div>
 
         <p className="mt-8 text-xs text-gray-500">
