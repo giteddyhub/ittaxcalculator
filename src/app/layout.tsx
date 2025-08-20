@@ -16,7 +16,10 @@ export const metadata: Metadata = {
   title: "Italian Tax Calculator",
   description: "Estimate Italian taxes (IRPEF, addizionali, INPS).",
   icons: {
-    icon: "/favicon.svg",
+    icon: [
+      { url: "/favicon.png", type: "image/png" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
   },
 };
 
