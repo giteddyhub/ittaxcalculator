@@ -26,6 +26,7 @@ type Regime = "ordinario" | "forfettario";
 
 export default function Home() {
   const [regime, setRegime] = useState<Regime>("ordinario");
+  const [showRegimeInfo, setShowRegimeInfo] = useState<boolean>(false);
   const [grossIncomeStr, setGrossIncomeStr] = useState<string>("40000");
   const [employmentType, setEmploymentType] = useState<EmploymentType>("employee");
   const [regionIdx, setRegionIdx] = useState<number>(0);
@@ -100,23 +101,40 @@ export default function Home() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <section className="u-card p-6">
-            <h2 className="text-base font-medium">Regime</h2>
+            <div className="flex items-center justify-between">
+              <h2 className="text-base font-medium">Regime</h2>
+              <button
+                type="button"
+                aria-label="What are these regimes?"
+                title="What are these regimes?"
+                className="u-button u-button--sm u-button--ghost"
+                onClick={() => setShowRegimeInfo((v)=>!v)}
+              >
+                i
+              </button>
+            </div>
             <div className="mt-3 grid grid-cols-2 gap-2">
               <button
                 type="button"
                 className={`u-button ${regime === "ordinario" ? "border-[#6941c6] bg-[#6941c6] text-white hover:bg-[#5a35b0]" : "u-button--ghost"}`}
                 onClick={() => setRegime("ordinario")}
               >
-                Ordinario
+                Ordinary
               </button>
               <button
                 type="button"
                 className={`u-button ${regime === "forfettario" ? "border-[#6941c6] bg-[#6941c6] text-white hover:bg-[#5a35b0]" : "u-button--ghost"}`}
                 onClick={() => setRegime("forfettario")}
               >
-                Forfettario
+                Flat‑rate (forfettario)
               </button>
             </div>
+            {showRegimeInfo && (
+              <div className="mt-4 rounded-lg border border-gray-200 bg-white p-3 text-xs text-gray-700">
+                <p className="mb-2"><strong>Ordinary</strong>: Progressive IRPEF (23% &le; €28k, 35% €28–50k, 43% &gt; €50k), plus regional (≈1.23–3.33%) and municipal (≈0–0.9%) add-ons. INPS contributions reduce taxable income. Credits/deductions may apply.</p>
+                <p className="mb-1"><strong>Flat‑rate (forfettario)</strong>: Substitute tax of 15% (5% for first 5 years if eligible). Tax base = revenues × coefficient (e.g., 78% professions, 67% commerce, 40% hospitality), then minus INPS. No IRPEF/add-ons. Thresholds: €85k (entry), exit if &gt; €100k during the year.</p>
+              </div>
+            )}
             {regime === "ordinario" && (
             <>
             <h2 className="text-base font-medium mt-6">Inputs</h2>
