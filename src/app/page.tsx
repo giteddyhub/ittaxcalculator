@@ -117,10 +117,9 @@ export default function Home() {
                 Forfettario
               </button>
             </div>
-          </section>
-          {regime === "ordinario" && (
-          <section className="u-card p-6">
-            <h2 className="text-base font-medium">Inputs</h2>
+            {regime === "ordinario" && (
+            <>
+            <h2 className="text-base font-medium mt-6">Inputs</h2>
             <div className="mt-4 grid grid-cols-1 gap-4">
               <div>
                 <label className="u-label">Gross annual income (EUR)</label>
@@ -215,12 +214,12 @@ export default function Home() {
                 <Switch label="Trattamento integrativo (approx)" checked={trattamentoIntegrativo} onChange={setTrattamentoIntegrativo} />
               </div>
             </div>
-          </section>
-          )}
+            </>
+            )}
 
-          {regime === "forfettario" && (
-          <section className="u-card p-6">
-            <h2 className="text-base font-medium">Inputs (Forfettario)</h2>
+            {regime === "forfettario" && (
+            <>
+            <h2 className="text-base font-medium mt-6">Inputs (Forfettario)</h2>
             <div className="mt-4 grid grid-cols-1 gap-4">
               <div>
                 <label className="u-label">Annual revenues (EUR)</label>
@@ -271,8 +270,9 @@ export default function Home() {
                 </label>
               </div>
             </div>
+            </>
+            )}
           </section>
-          )}
 
           {regime === "ordinario" && (
           <section className="u-card p-6">
