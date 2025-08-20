@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { calculateItalianTaxes, EmploymentType, formatCurrencyEUR } from "@/lib/tax/italy";
 import { calculateForfettario, QUICK_COEFFICIENTS, ForfettarioInpsPath, formatCurrencyEUR as formatEURForf } from "@/lib/tax/forfettario";
 import { Switch } from "@/components/ui/Switch";
@@ -80,6 +80,24 @@ export default function Home() {
       startupFivePct: fivePct,
     });
   }, [revenuesStr, coeffPctStr, forfPath, gsRateStr, ivsAnnualStr, ivs35, fivePct]);
+
+  // Force favicon update on client side
+  useEffect(() => {
+    const updateFavicon = () => {
+      // Remove existing favicon links
+      const existingLinks = document.querySelectorAll('link[rel="icon"], link[rel="shortcut icon"]');
+      existingLinks.forEach(link => link.remove());
+      
+      // Add new favicon link
+      const link = document.createElement('link');
+      link.rel = 'icon';
+      link.type = 'image/png';
+      link.href = '/favicon.png?v=' + Date.now();
+      document.head.appendChild(link);
+    };
+    
+    updateFavicon();
+  }, []);
 
   return (
     <div className="min-h-screen bg-white text-gray-900">
