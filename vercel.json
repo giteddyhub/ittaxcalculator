@@ -3,15 +3,11 @@
     {
       "source": "/favicon.png",
       "headers": [
-        { "key": "Cache-Control", "value": "no-store, must-revalidate" }
+        { "key": "Cache-Control", "value": "no-store, must-revalidate" },
+        { "key": "Content-Type", "value": "image/png" }
       ]
     },
-    {
-      "source": "/favicon.ico",
-      "headers": [
-        { "key": "Cache-Control", "value": "no-store, must-revalidate" }
-      ]
-    }
+    { "source": "/favicon.ico", "headers": [{ "key": "Cache-Control", "value": "no-store" }] }
   ]
 }
 
