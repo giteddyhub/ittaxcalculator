@@ -77,9 +77,9 @@ export function formatCurrencyEUR(value: number): string {
 }
 
 export const QUICK_COEFFICIENTS: { label: string; value: number }[] = [
-	{ label: "Professioni (78%)", value: 78 },
-	{ label: "Commercio (67%)", value: 67 },
-	{ label: "Alloggio/Ristorazione (40%)", value: 40 },
+	{ label: "Professions (78%)", value: 78 },
+	{ label: "Commerce (67%)", value: 67 },
+	{ label: "Accommodation/Food (40%)", value: 40 },
 ];
 
 

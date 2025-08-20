@@ -237,7 +237,7 @@ export default function Home() {
 
             {regime === "forfettario" && (
             <>
-            <h2 className="text-base font-medium mt-6">Inputs (Forfettario)</h2>
+            <h2 className="text-base font-medium mt-6">Inputs (Flat‑rate)</h2>
             <div className="mt-4 grid grid-cols-1 gap-4">
               <div>
                 <label className="u-label">Annual revenues (EUR)</label>
@@ -256,8 +256,8 @@ export default function Home() {
               <div>
                 <label className="u-label">INPS path</label>
                 <div className="mt-2 grid grid-cols-2 gap-2">
-                  <button type="button" className={`u-button ${forfPath==="gestione_separata"?"border-[#6941c6] bg-[#6941c6] text-white hover:bg-[#5a35b0]":"u-button--ghost"}`} onClick={()=>setForfPath("gestione_separata")}>Gestione Separata</button>
-                  <button type="button" className={`u-button ${forfPath==="ivs_artigiani_commercianti"?"border-[#6941c6] bg-[#6941c6] text-white hover:bg-[#5a35b0]":"u-button--ghost"}`} onClick={()=>setForfPath("ivs_artigiani_commercianti")}>IVS Artigiani/Commercianti</button>
+                  <button type="button" className={`u-button truncate ${forfPath==="gestione_separata"?"border-[#6941c6] bg-[#6941c6] text-white hover:bg-[#5a35b0]":"u-button--ghost"}`} onClick={()=>setForfPath("gestione_separata")}>Gestione Separata (GS)</button>
+                  <button type="button" className={`u-button truncate ${forfPath==="ivs_artigiani_commercianti"?"border-[#6941c6] bg-[#6941c6] text-white hover:bg-[#5a35b0]":"u-button--ghost"}`} onClick={()=>setForfPath("ivs_artigiani_commercianti")}>IVS Artisans/Traders</button>
                 </div>
               </div>
 
@@ -272,20 +272,16 @@ export default function Home() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
                     <label className="u-label">IVS annual contributions (EUR)</label>
-                    <input type="text" inputMode="decimal" placeholder="minimi + eccedenza" value={ivsAnnualStr} onChange={(e)=>setIvsAnnualStr(e.target.value)} className="u-input" />
+                    <input type="text" inputMode="decimal" placeholder="minimums + excess" value={ivsAnnualStr} onChange={(e)=>setIvsAnnualStr(e.target.value)} className="u-input" />
                   </div>
-                  <label className="flex items-center gap-2 text-sm text-gray-700 mt-6">
-                    <input type="checkbox" checked={ivs35} onChange={(e)=>setIvs35(e.target.checked)} />
-                    Apply 35% IVS reduction (if eligible)
-                  </label>
+                  <div className="mt-6">
+                    <Switch label="Apply 35% IVS reduction (if eligible)" checked={ivs35} onChange={setIvs35} />
+                  </div>
                 </div>
               )}
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <label className="flex items-center gap-2 text-sm text-gray-700">
-                  <input type="checkbox" checked={fivePct} onChange={(e)=>setFivePct(e.target.checked)} />
-                  Startup 5% rate (first 5 years, if eligible)
-                </label>
+                <Switch label="Startup 5% rate (first 5 years, if eligible)" checked={fivePct} onChange={setFivePct} />
               </div>
             </div>
             </>
