@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { calculateItalianTaxes, EmploymentType, formatCurrencyEUR } from "@/lib/tax/italy";
 import { Switch } from "@/components/ui/Switch";
+import { BackLink } from "@/components/ui/BackLink";
 
 type RegionPreset = {
   name: string;
@@ -54,7 +55,17 @@ export default function Home() {
     <div className="min-h-screen bg-white text-gray-900">
       <div className="mx-auto max-w-5xl px-6 py-10">
         <header className="mb-8">
-          <h1 className="text-3xl font-semibold tracking-tight">Italian Tax Calculator</h1>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="hidden sm:block">
+                <BackLink href="https://www.italiantaxes.com/" label="Back" />
+              </div>
+              <h1 className="text-3xl font-semibold tracking-tight">Italian Tax Calculator</h1>
+            </div>
+          </div>
+          <div className="sm:hidden mt-3">
+            <BackLink href="https://www.italiantaxes.com/" label="Back" />
+          </div>
           <p className="mt-2 text-sm text-gray-600">Estimate IRPEF, regional/municipal taxes, and INPS.</p>
         </header>
 
