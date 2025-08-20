@@ -17,11 +17,12 @@ export const metadata: Metadata = {
   description: "Estimate Italian taxes (IRPEF, addizionali, INPS).",
   icons: {
     icon: [
-      { url: "/favicon.png?v=3", type: "image/png", sizes: "32x32" },
-      { url: "/favicon.ico?v=3" },
+      { url: "/favicon.svg?v=4", type: "image/svg+xml" },
+      { url: "/favicon.png?v=4", type: "image/png", sizes: "32x32" },
+      { url: "/favicon.ico?v=4" },
     ],
-    shortcut: ["/favicon.ico?v=3"],
-    apple: [{ url: "/apple-touch-icon.png?v=3" }],
+    shortcut: ["/favicon.ico?v=4"],
+    apple: [{ url: "/apple-touch-icon.png?v=4" }],
   },
 };
 
