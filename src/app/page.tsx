@@ -247,7 +247,16 @@ export default function Home() {
                 <label className="u-label">Coefficient (%)</label>
                 <div className="mt-2 grid grid-cols-3 gap-2">
                   {QUICK_COEFFICIENTS.map(c => (
-                    <button key={c.value} type="button" onClick={() => setCoeffPctStr(String(c.value))} className={`u-button ${Number(coeffPctStr)===c.value?"border-[#6941c6] bg-[#6941c6] text-white hover:bg-[#5a35b0]":"u-button--ghost"}`}>{c.label}</button>
+                    <button
+                      key={c.value}
+                      type="button"
+                      onClick={() => setCoeffPctStr(String(c.value))}
+                      className={`u-button w-full text-center whitespace-normal break-words leading-snug ${
+                        Number(coeffPctStr)===c.value?"border-[#6941c6] bg-[#6941c6] text-white hover:bg-[#5a35b0]":"u-button--ghost"
+                      }`}
+                    >
+                      {c.label}
+                    </button>
                   ))}
                 </div>
                 <input type="text" inputMode="decimal" value={coeffPctStr} onChange={(e) => setCoeffPctStr(e.target.value)} className="u-input" />
