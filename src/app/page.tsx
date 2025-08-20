@@ -37,7 +37,7 @@ export default function Home() {
   const [inpsOverridePct, setInpsOverridePct] = useState<string>("");
 
   // Forfettario state
-  const [revenuesStr, setRevenuesStr] = useState<string>("");
+  const [revenuesStr, setRevenuesStr] = useState<string>("40000");
   const [coeffPctStr, setCoeffPctStr] = useState<string>("78");
   const [forfPath, setForfPath] = useState<ForfettarioInpsPath>("gestione_separata");
   const [gsRateStr, setGsRateStr] = useState<string>("");
